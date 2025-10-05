@@ -1,0 +1,16 @@
+VS Code 사용
+
+pip install tensorflow mediapipe ultralytics opencv-python (호환 맞춰보세요)
+
+내가 썼던 버전(참고용)
+anaconda 기반 가상환경 3.10.16
+
+패키지
+
+tensorflow : tensorflow 2.19.0, tensorflow_cpu 2.18.1 tensorflow-determinism 0.4.0, tensorflow-io-gcs-filesystem 0.31.0
+mediapipe : mediapipe 0.10.21
+ultralytics : ultralytics 8.3.203, ultralytics-thop 2.0.17
+opencv-python : opencv-contrib-python 4.11.0.86, opencv-python 4.11.0.86
+
+
+yolo_model = YOLO('yolov8n.pt') 썼습니다. 우선은 구현이 목표니까 tiny 아님
