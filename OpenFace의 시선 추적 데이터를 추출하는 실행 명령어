@@ -1,0 +1,1 @@
+FeatureExtraction.exe -device 0 -gaze -no-gui -rigid -out_dir ./output_gaze -of gaze_data.csv -occlude -vis
