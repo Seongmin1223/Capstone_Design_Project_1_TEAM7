@@ -44,4 +44,8 @@
 */cmake_install.cmake
 .DS_Store
 
+
+.pch
+.ipch
+.dat
 # End of https://www.toptal.com/developers/gitignore/api/opencv,c++
