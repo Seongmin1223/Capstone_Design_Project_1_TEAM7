@@ -1,0 +1,109 @@
+﻿  main.cpp
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\dlib\include\dlib\console_progress_indicator.h(153,28): warning C4834: [[nodiscard]] 특성이 포함된 함수의 반환 값을 버리는 중입니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\dlib\include\dlib\image_transforms\morphological_operations.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+  Utilities.lib(Visualizer.obj) : /GL로 컴파일한 MSIL .netmodule 또는 모듈이 있습니다. /LTCG를 지정하여 링크를 다시 시작하십시오. /LTCG를 링크 명령줄에 추가하면 링커 성능이 향상됩니다.
+LINK : warning LNK4075: '/INCREMENTAL'이(가) '/LTCG' 사양으로 인해 무시됩니다.
+Utilities.lib(Visualizer.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+Utilities.lib(Visualizer.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+Utilities.lib(stdafx_ut.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+Utilities.lib(stdafx_ut.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+Utilities.lib(VisualizationUtils.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+Utilities.lib(VisualizationUtils.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorParameters.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorParameters.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorModel.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorModel.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorFunc.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectorFunc.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(stdafx.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(stdafx.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(PDM.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(PDM.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(Patch_experts.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(Patch_experts.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(FaceDetectorMTCNN.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(FaceDetectorMTCNN.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectionValidator.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(LandmarkDetectionValidator.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(PAW.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(PAW.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(CEN_patch_expert.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(CEN_patch_expert.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(CCNF_patch_expert.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(CCNF_patch_expert.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(SVR_patch_expert.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(SVR_patch_expert.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(CNN_utils.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+LandmarkDetector.lib(CNN_utils.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(FaceAnalyserParameters.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(FaceAnalyserParameters.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(FaceAnalyser.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(FaceAnalyser.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(stdafx_fa.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(stdafx_fa.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(Face_utils.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(Face_utils.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVR_static_lin_regressors.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVR_static_lin_regressors.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVR_dynamic_lin_regressors.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVR_dynamic_lin_regressors.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVM_static_lin.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVM_static_lin.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVM_dynamic_lin.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+FaceAnalyser.lib(SVM_dynamic_lin.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+GazeAnalyser.lib(GazeEstimation.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '0' 값이 '2'(main.obj에 위치) 값과 일치하지 않습니다.
+GazeAnalyser.lib(GazeEstimation.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+msvcprt.lib(locale0_implib.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MD_DynamicRelease' 값이 'MDd_DynamicDebug'(main.obj에 위치) 값과 일치하지 않습니다.
+LINK : warning LNK4098: 'MSVCRT' defaultlib가 다른 라이브러리와 충돌합니다. /NODEFAULTLIB:library를 사용하십시오.
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "public: void __cdecl cv::Mat::copyTo(class cv::_OutputArray const &)const " (?copyTo@Mat@cv@@QEBAXAEBV_OutputArray@2@@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "class cv::_InputOutputArray const & __cdecl cv::noArray(void)" (?noArray@cv@@YAAEBV_InputOutputArray@1@XZ)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "public: void __cdecl cv::Mat::convertTo(class cv::_OutputArray const &,int,double,double)const " (?convertTo@Mat@cv@@QEBAXAEBV_OutputArray@2@HNN@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::vconcat(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &)" (?vconcat@cv@@YAXAEBV_InputArray@1@0AEBV_OutputArray@1@@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::circle(class cv::_InputOutputArray const &,class cv::Point_<int>,int,class cv::Scalar_<double> const &,int,int,int)" (?circle@cv@@YAXAEBV_InputOutputArray@1@V?$Point_@H@1@HAEBV?$Scalar_@N@1@HHH@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "public: class cv::Mat & __cdecl cv::Mat::setTo(class cv::_InputArray const &,class cv::_InputArray const &)" (?setTo@Mat@cv@@QEAAAEAV12@AEBV_InputArray@2@0@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::putText(class cv::_InputOutputArray const &,class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class cv::Point_<int>,int,double,class cv::Scalar_<double>,int,int,bool)" (?putText@cv@@YAXAEBV_InputOutputArray@1@AEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$Point_@H@1@HNV?$Scalar_@N@1@HH_N@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::rectangle(class cv::_InputOutputArray const &,class cv::Point_<int>,class cv::Point_<int>,class cv::Scalar_<double> const &,int,int,int)" (?rectangle@cv@@YAXAEBV_InputOutputArray@1@V?$Point_@H@1@1AEBV?$Scalar_@N@1@HHH@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::line(class cv::_InputOutputArray const &,class cv::Point_<int>,class cv::Point_<int>,class cv::Scalar_<double> const &,int,int,int)" (?line@cv@@YAXAEBV_InputOutputArray@1@V?$Point_@H@1@1AEBV?$Scalar_@N@1@HHH@Z)
+Utilities.lib(Visualizer.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::imshow(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,class cv::_InputArray const &)" (?imshow@cv@@YAXAEBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AEBV_InputArray@1@@Z)
+LandmarkDetector.lib(LandmarkDetectorModel.obj) : error LNK2001: 확인할 수 없는 외부 기호 "class cv::Scalar_<double> __cdecl cv::sum(class cv::_InputArray const &)" (?sum@cv@@YA?AV?$Scalar_@N@1@AEBV_InputArray@1@@Z)
+LandmarkDetector.lib(LandmarkDetectorModel.obj) : error LNK2001: 확인할 수 없는 외부 기호 "double __cdecl cv::norm(class cv::_InputArray const &,class cv::_InputArray const &,int,class cv::_InputArray const &)" (?norm@cv@@YANAEBV_InputArray@1@0H0@Z)
+LandmarkDetector.lib(LandmarkDetectorModel.obj) : error LNK2001: 확인할 수 없는 외부 기호 "bool __cdecl cv::solve(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &,int)" (?solve@cv@@YA_NAEBV_InputArray@1@0AEBV_OutputArray@1@H@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "class cv::Scalar_<double> __cdecl cv::mean(class cv::_InputArray const &,class cv::_InputArray const &)" (?mean@cv@@YA?AV?$Scalar_@N@1@AEBV_InputArray@1@0@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::dft(class cv::_InputArray const &,class cv::_OutputArray const &,int,int)" (?dft@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@HH@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::mulSpectrums(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &,int,bool)" (?mulSpectrums@cv@@YAXAEBV_InputArray@1@0AEBV_OutputArray@1@H_N@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::integral(class cv::_InputArray const &,class cv::_OutputArray const &,int)" (?integral@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@H@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::integral(class cv::_InputArray const &,class cv::_OutputArray const &,class cv::_OutputArray const &,int,int)" (?integral@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@1HH@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::meanStdDev(class cv::_InputArray const &,class cv::_OutputArray const &,class cv::_OutputArray const &,class cv::_InputArray const &)" (?meanStdDev@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@10@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "public: void __cdecl cv::CascadeClassifier::detectMultiScale(class cv::_InputArray const &,class std::vector<class cv::Rect_<int>,class std::allocator<class cv::Rect_<int> > > &,double,int,int,class cv::Size_<int>,class cv::Size_<int>)" (?detectMultiScale@CascadeClassifier@cv@@QEAAXAEBV_InputArray@2@AEAV?$vector@V?$Rect_@H@cv@@V?$allocator@V?$Rect_@H@cv@@@std@@@std@@NHHV?$Size_@H@2@2@Z)
+LandmarkDetector.lib(LandmarkDetectorUtils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::resize(class cv::_InputArray const &,class cv::_OutputArray const &,class cv::Size_<int>,double,double,int)" (?resize@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@V?$Size_@H@1@NNH@Z)
+LandmarkDetector.lib(LandmarkDetectorFunc.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::Rodrigues(class cv::_InputArray const &,class cv::_OutputArray const &,class cv::_OutputArray const &)" (?Rodrigues@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@1@Z)
+LandmarkDetector.lib(LandmarkDetectorFunc.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::cvtColor(class cv::_InputArray const &,class cv::_OutputArray const &,int,int)" (?cvtColor@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@HH@Z)
+LandmarkDetector.lib(LandmarkDetectorFunc.obj) : error LNK2001: 확인할 수 없는 외부 기호 "bool __cdecl cv::solvePnP(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &,class cv::_OutputArray const &,bool,int)" (?solvePnP@cv@@YA_NAEBV_InputArray@1@000AEBV_OutputArray@1@1_NH@Z)
+LandmarkDetector.lib(LandmarkDetectorFunc.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::matchTemplate(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &,int,class cv::_InputArray const &)" (?matchTemplate@cv@@YAXAEBV_InputArray@1@0AEBV_OutputArray@1@H0@Z)
+LandmarkDetector.lib(LandmarkDetectorFunc.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::minMaxIdx(class cv::_InputArray const &,double *,double *,int *,int *,class cv::_InputArray const &)" (?minMaxIdx@cv@@YAXAEBV_InputArray@1@PEAN1PEAH20@Z)
+LandmarkDetector.lib(PDM.obj) : error LNK2001: 확인할 수 없는 외부 기호 "public: class cv::SVD & __cdecl cv::SVD::operator()(class cv::_InputArray const &,int)" (??RSVD@cv@@QEAAAEAV01@AEBV_InputArray@1@H@Z)
+LandmarkDetector.lib(PDM.obj) : error LNK2001: 확인할 수 없는 외부 기호 "double __cdecl cv::determinant(class cv::_InputArray const &)" (?determinant@cv@@YANAEBV_InputArray@1@@Z)
+LandmarkDetector.lib(PDM.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::minMaxLoc(class cv::_InputArray const &,double *,double *,class cv::Point_<int> *,class cv::Point_<int> *,class cv::_InputArray const &)" (?minMaxLoc@cv@@YAXAEBV_InputArray@1@PEAN1PEAV?$Point_@H@1@20@Z)
+LandmarkDetector.lib(PDM.obj) : error LNK2001: 확인할 수 없는 외부 기호 "class cv::Scalar_<double> __cdecl cv::trace(class cv::_InputArray const &)" (?trace@cv@@YA?AV?$Scalar_@N@1@AEBV_InputArray@1@@Z)
+LandmarkDetector.lib(PDM.obj) : error LNK2001: 확인할 수 없는 외부 기호 "double __cdecl cv::norm(class cv::_InputArray const &,int,class cv::_InputArray const &)" (?norm@cv@@YANAEBV_InputArray@1@H0@Z)
+LandmarkDetector.lib(Patch_experts.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::pow(class cv::_InputArray const &,double,class cv::_OutputArray const &)" (?pow@cv@@YAXAEBV_InputArray@1@NAEBV_OutputArray@1@@Z)
+LandmarkDetector.lib(Patch_experts.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::warpAffine(class cv::_InputArray const &,class cv::_OutputArray const &,class cv::_InputArray const &,class cv::Size_<int>,int,int,class cv::Scalar_<double> const &)" (?warpAffine@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@0V?$Size_@H@1@HHAEBV?$Scalar_@N@1@@Z)
+LandmarkDetector.lib(FaceDetectorMTCNN.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::exp(class cv::_InputArray const &,class cv::_OutputArray const &)" (?exp@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@@Z)
+LandmarkDetector.lib(LandmarkDetectionValidator.obj) : error LNK2001: 확인할 수 없는 외부 기호 "double __cdecl cv::threshold(class cv::_InputArray const &,class cv::_OutputArray const &,double,double,int)" (?threshold@cv@@YANAEBV_InputArray@1@AEBV_OutputArray@1@NNH@Z)
+LandmarkDetector.lib(LandmarkDetectionValidator.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::subtract(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &,class cv::_InputArray const &,int)" (?subtract@cv@@YAXAEBV_InputArray@1@0AEBV_OutputArray@1@0H@Z)
+LandmarkDetector.lib(PAW.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::remap(class cv::_InputArray const &,class cv::_OutputArray const &,class cv::_InputArray const &,class cv::_InputArray const &,int,int,class cv::Scalar_<double> const &)" (?remap@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@00HHAEBV?$Scalar_@N@1@@Z)
+LandmarkDetector.lib(CEN_patch_expert.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::flip(class cv::_InputArray const &,class cv::_OutputArray const &,int)" (?flip@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@H@Z)
+LandmarkDetector.lib(CCNF_patch_expert.obj) : error LNK2001: 확인할 수 없는 외부 기호 "double __cdecl cv::invert(class cv::_InputArray const &,class cv::_OutputArray const &,int)" (?invert@cv@@YANAEBV_InputArray@1@AEBV_OutputArray@1@H@Z)
+LandmarkDetector.lib(SVR_patch_expert.obj) : error LNK2001: 확인할 수 없는 외부 기호 "public: class cv::MatExpr __cdecl cv::Mat::mul(class cv::_InputArray const &,double)const " (?mul@Mat@cv@@QEBA?AVMatExpr@2@AEBV_InputArray@2@N@Z)
+FaceAnalyser.lib(FaceAnalyser.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::hconcat(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &)" (?hconcat@cv@@YAXAEBV_InputArray@1@0AEBV_OutputArray@1@@Z)
+FaceAnalyser.lib(Face_utils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::extractChannel(class cv::_InputArray const &,class cv::_OutputArray const &,int)" (?extractChannel@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@H@Z)
+FaceAnalyser.lib(Face_utils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::multiply(class cv::_InputArray const &,class cv::_InputArray const &,class cv::_OutputArray const &,double,int)" (?multiply@cv@@YAXAEBV_InputArray@1@0AEBV_OutputArray@1@NH@Z)
+FaceAnalyser.lib(Face_utils.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::merge(class cv::Mat const *,unsigned __int64,class cv::_OutputArray const &)" (?merge@cv@@YAXPEBVMat@1@_KAEBV_OutputArray@1@@Z)
+FaceAnalyser.lib(SVR_static_lin_regressors.obj) : error LNK2001: 확인할 수 없는 외부 기호 "void __cdecl cv::transpose(class cv::_InputArray const &,class cv::_OutputArray const &)" (?transpose@cv@@YAXAEBV_InputArray@1@AEBV_OutputArray@1@@Z)
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\Test\x64\Debug\Test.exe : fatal error LNK1120: 45개의 확인할 수 없는 외부 참조입니다.
