@@ -1,0 +1,31 @@
+﻿  AssemblyInfo.cpp
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\local\CppInerop\AssemblyInfo.cpp(72,46): warning C4947: 'System::Security::Permissions::SecurityAction::RequestMinimum': 사용되지 않는 것으로 표시되었습니다.
+      C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\local\CppInerop\AssemblyInfo.cpp(72,46):
+      메시지: 'Assembly level declarative security is obsolete and is no longer enforced by the CLR by default. See http://go.microsoft.com/fwlink/?LinkID=155570 for more information.'
+  
+  CppInterop.cpp
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\OpenCV\include\opencv2\core.hpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'CppInterop.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\OpenCV\include\opencv2\core.hpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'CppInterop.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\OpenCV\include\opencv2\core.hpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'CppInterop.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\OpenCV\include\opencv2\imgcodecs.hpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'CppInterop.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\local\CppInerop\LandmarkDetectorInterop.h(52,8): warning C5308: 예약된 매크로 이름 '_M_CEE'을(를) 수정하면 정의되지 않은 동작이 발생할 수 있습니다.
+  (소스 파일 'CppInterop.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\dlib\include\dlib\console_progress_indicator.h(153,28): warning C4834: [[nodiscard]] 특성이 포함된 함수의 반환 값을 버리는 중입니다.
+  (소스 파일 'CppInterop.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ChoiYoonho\Desktop\Capstone_Design_Project_1_TEAM7\OpenFace-OpenFace_2.2.0\lib\3rdParty\dlib\include\dlib\image_transforms\morphological_operations.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'CppInterop.cpp'을(를) 컴파일하는 중)
+  
+  코드를 생성하고 있습니다...
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  0개 파일이 복사되었습니다.
+LINK : fatal error LNK1181: 'opencv_world4120.lib' 입력 파일을 열 수 없습니다.
