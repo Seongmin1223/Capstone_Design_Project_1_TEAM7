@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/YOLO/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

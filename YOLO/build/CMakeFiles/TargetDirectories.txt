@@ -1,0 +1,3 @@
+C:/YOLO/build/CMakeFiles/YOLO_Inference.dir
+C:/YOLO/build/CMakeFiles/ALL_BUILD.dir
+C:/YOLO/build/CMakeFiles/ZERO_CHECK.dir
