@@ -378,11 +378,11 @@ void Visualizer::SetObservationGaze(const cv::Point3f& gaze_direction0, const cv
 
 			std::vector<cv::Point3f> points_left;
 			points_left.push_back(cv::Point3f(pupil_left));
-			points_left.push_back(cv::Point3f(pupil_left) + cv::Point3f(gaze_direction0)*1000.0);
+			points_left.push_back(cv::Point3f(pupil_left) + cv::Point3f(gaze_direction0)*1000.0); //기존 50, 1000으로 20배 늘림
 
 			std::vector<cv::Point3f> points_right;
 			points_right.push_back(cv::Point3f(pupil_right));
-			points_right.push_back(cv::Point3f(pupil_right) + cv::Point3f(gaze_direction1)*1000.0);
+			points_right.push_back(cv::Point3f(pupil_right) + cv::Point3f(gaze_direction1)*1000.0); //기존 50, 1000으로 20배 늘림
 
 			cv::Mat_<float> proj_points;
 			cv::Mat_<float> mesh_0 = (cv::Mat_<float>(2, 3) << points_left[0].x, points_left[0].y, points_left[0].z, points_left[1].x, points_left[1].y, points_left[1].z);
