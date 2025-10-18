@@ -52,6 +52,6 @@
 
 # End of https://www.toptal.com/developers/gitignore/api/opencv,c++
 # === Ignore unnecessary large folders ===
-Test/Library/
-Test/Test/AU_predictors/
-Test/Test/model/
+Dangerous Object Use Detectors/Library
+Dangerous Object Use Detectors/Test/AU_predictors/
+Dangerous Object Use Detectors/Test/model/
