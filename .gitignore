@@ -14,6 +14,7 @@
 # Precompiled Headers
 *.gch
 *.pch
+*.ipch
 
 # Compiled Dynamic libraries
 *.so
@@ -36,16 +37,22 @@
 *.app
 
 ### OpenCV ###
-#OpenCV for Mac and Linux
-#build and release folders
-*/CMakeFiles
+# Build and release folders
+*/CMakeFiles/
 */CMakeCache.txt
 */Makefile
 */cmake_install.cmake
+.dat
+
+# macOS system files
 .DS_Store
 
+### Visual Studio / Build / Misc ###
+Test/.vs/
+Test/Library/
+Test/X64/
+*.unsuccessbuild
+*.visdx
+*.db
 
-.pch
-.ipch
-.dat
 # End of https://www.toptal.com/developers/gitignore/api/opencv,c++
