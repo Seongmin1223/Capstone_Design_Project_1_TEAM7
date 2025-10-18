@@ -48,4 +48,10 @@
 .pch
 .ipch
 .dat
+
+
 # End of https://www.toptal.com/developers/gitignore/api/opencv,c++
+# === Ignore unnecessary large folders ===
+Test/Library/
+Test/Test/AU_predictors/
+Test/Test/model/
