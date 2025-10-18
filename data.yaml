@@ -1,0 +1,19 @@
+# data.yaml
+
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+# 클래스 개수 (수정)
+nc: 2
+
+# 클래스 이름 (수정)
+names: ['driver', 'phone']
+
+# roboflow 정보는 그대로 둡니다.
+roboflow:
+  workspace: pruebadeteccioncelulareschoferes
+  project: cellphone-detector-drivers-ma3vx
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/pruebadeteccioncelulareschoferes/cellphone-detector-drivers-ma3vx/dataset/2
