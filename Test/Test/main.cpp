@@ -1,4 +1,4 @@
-﻿#include <dlib/image_processing/frontal_face_detector.h>
+#include <dlib/image_processing/frontal_face_detector.h>
 #include "LandmarkCoreIncludes.h"
 #include <FaceAnalyser.h>
 #include <GazeEstimation.h>
@@ -117,29 +117,20 @@ int main(int argc, char** argv)
     face_analysis_params.OptimizeForImages();
     FaceAnalysis::FaceAnalyser face_analyser(face_analysis_params);
 
-    dlib::frontal_face_detector face_detector_hog = dlib::get_frontal_face_detector();
     Utilities::Visualizer visualizer(arguments);
 
-    // YOLO 모델 로드 - 여러 경로 시도
+    // YOLO 모델 로드
     std::vector<std::string> model_paths = {
-        "yolov8n.onnx",              // 실행 파일과 같은 위치
-        "../yolov8n.onnx",           // 한 단계 상위
-        "../../yolov8n.onnx",        // 두 단계 상위
-        "model/yolov8n.onnx",       // models 폴더 내
-        "../model/yolov8n.onnx"     // 상위의 models 폴더
+        "yolov8n.onnx", "model/yolov8n.onnx"
     };
-
     cv::dnn::Net yolo_net;
     bool model_loaded = false;
-    std::string loaded_path;
-
     for (const auto& path : model_paths) {
         if (fs::exists(path)) {
             try {
                 yolo_net = cv::dnn::readNetFromONNX(path);
                 yolo_net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
                 yolo_net.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
-                loaded_path = path;
                 model_loaded = true;
                 std::cout << "YOLO 모델 로드 성공: " << path << std::endl;
                 break;
@@ -149,16 +140,12 @@ int main(int argc, char** argv)
             }
         }
     }
-
     if (!model_loaded) {
-        std::cerr << "YOLO 모델을 찾을 수 없습니다. 다음 위치에 yolov8n.onnx를 배치하세요:" << std::endl;
-        for (const auto& path : model_paths) {
-            std::cerr << "  - " << fs::absolute(path) << std::endl;
-        }
+        std::cerr << "YOLO 모델(yolov8n.onnx)을 찾을 수 없습니다." << std::endl;
         return 1;
     }
 
-    // COCO 클래스 이름 (휴대폰은 인덱스 67)
+    // COCO 클래스 이름
     std::vector<std::string> classNames = {
         "person", "bicycle", "car", "motorcycle", "airplane", "bus", "train", "truck", "boat",
         "traffic light", "fire hydrant", "stop sign", "parking meter", "bench", "bird", "cat",
@@ -171,9 +158,8 @@ int main(int argc, char** argv)
         "remote", "keyboard", "cell phone", "microwave", "oven", "toaster", "sink", "refrigerator",
         "book", "clock", "vase", "scissors", "teddy bear", "hair drier", "toothbrush"
     };
-
     const int CELL_PHONE_CLASS_ID = 67;
-    float confThreshold = 0.15f;  // 임계값 더 낮춤 (휴대폰 탐지 민감도 증가)
+    float confThreshold = 0.25f;
     float nmsThreshold = 0.4f;
 
     // 웹캠 열기
@@ -199,118 +185,62 @@ int main(int argc, char** argv)
         cv::Mat blob;
         cv::dnn::blobFromImage(frame, blob, 1 / 255.0, cv::Size(640, 640), cv::Scalar(0, 0, 0), true, false);
         yolo_net.setInput(blob);
-
         std::vector<cv::Mat> yolo_outs;
         yolo_net.forward(yolo_outs, yolo_net.getUnconnectedOutLayersNames());
-
         std::vector<Detection> detections = postprocess(frame, yolo_outs, confThreshold, nmsThreshold);
 
-        // 모든 탐지 결과 출력 (디버깅용)
-        if (!detections.empty()) {
-            std::cout << "=== Frame Detection Results ===" << std::endl;
-            std::cout << "Total detections: " << detections.size() << std::endl;
-        }
-
-        // 휴대폰 탐지 결과 표시
         bool phone_detected = false;
-        int phone_count = 0;
-
         for (const auto& det : detections) {
-            // 모든 탐지 객체 출력
-            if (!detections.empty()) {
-                std::cout << "  - " << classNames[det.classId]
-                    << " (confidence: " << (det.confidence * 100) << "%)" << std::endl;
-            }
-
-            // 휴대폰 탐지 시
             if (det.classId == CELL_PHONE_CLASS_ID) {
                 phone_detected = true;
-                phone_count++;
-
-                // 빨간색 박스로 휴대폰 표시
                 cv::rectangle(display_frame, det.box, cv::Scalar(0, 0, 255), 3);
-
                 std::string label = "PHONE DETECTED! " + std::to_string((int)(det.confidence * 100)) + "%";
                 int baseLine;
                 cv::Size labelSize = cv::getTextSize(label, cv::FONT_HERSHEY_SIMPLEX, 0.8, 2, &baseLine);
-
-                // 레이블 배경
-                cv::rectangle(display_frame,
-                    cv::Point(det.box.x, det.box.y - labelSize.height - 10),
-                    cv::Point(det.box.x + labelSize.width, det.box.y),
-                    cv::Scalar(0, 0, 255), cv::FILLED);
-
-                // 레이블 텍스트
-                cv::putText(display_frame, label,
-                    cv::Point(det.box.x, det.box.y - 5),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 255, 255), 2);
+                cv::rectangle(display_frame, cv::Point(det.box.x, det.box.y - labelSize.height - 10), cv::Point(det.box.x + labelSize.width, det.box.y), cv::Scalar(0, 0, 255), cv::FILLED);
+                cv::putText(display_frame, label, cv::Point(det.box.x, det.box.y - 5), cv::FONT_HERSHEY_SIMPLEX, 0.8, cv::Scalar(255, 255, 255), 2);
             }
         }
-
-        // 화면 상단에 큰 경고 메시지
         if (phone_detected) {
             std::string warning = "!!! WARNING: PHONE IN VIEW !!!";
             cv::Size textSize = cv::getTextSize(warning, cv::FONT_HERSHEY_SIMPLEX, 1.5, 3, nullptr);
-
-            // 경고 배경 (빨간색 반투명)
             cv::Mat overlay = display_frame.clone();
-            cv::rectangle(overlay,
-                cv::Point(0, 0),
-                cv::Point(display_frame.cols, 80),
-                cv::Scalar(0, 0, 255), cv::FILLED);
+            cv::rectangle(overlay, cv::Point(0, 0), cv::Point(display_frame.cols, 80), cv::Scalar(0, 0, 255), cv::FILLED);
             cv::addWeighted(overlay, 0.7, display_frame, 0.3, 0, display_frame);
-
-            // 경고 텍스트
-            cv::putText(display_frame, warning,
-                cv::Point((display_frame.cols - textSize.width) / 2, 50),
-                cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255, 255, 255), 3);
-
-            std::cout << ">>> PHONE DETECTED! Count: " << phone_count << " <<<" << std::endl;
+            cv::putText(display_frame, warning, cv::Point((display_frame.cols - textSize.width) / 2, 50), cv::FONT_HERSHEY_SIMPLEX, 1.5, cv::Scalar(255, 255, 255), 3);
         }
 
-        // === OpenFace로 얼굴 및 시선 탐지 ===
-        dlib::cv_image<unsigned char> dlib_img(grayscale_image);
-        std::vector<dlib::rectangle> hog_face_detections = face_detector_hog(dlib_img);
-        std::vector<cv::Rect_<float>> face_detections;
-        for (const auto& rect : hog_face_detections) {
-            face_detections.push_back(cv::Rect_<float>(rect.left(), rect.top(), rect.width(), rect.height()));
-        }
+        // === OpenFace로 얼굴 및 시선 추적 (성능 개선된 버전) ===
+        bool success = LandmarkDetector::DetectLandmarksInVideo(frame, face_model, det_parameters, grayscale_image);
 
-        if (!face_detections.empty()) {
+        if (success) {
+            // 얼굴 추적에 성공한 경우
             float cx = frame.cols / 2.0f, cy = frame.rows / 2.0f;
             visualizer.SetImage(display_frame, fx, fy, cx, cy);
 
-            for (const auto& face_rect : face_detections) {
-                bool success = LandmarkDetector::DetectLandmarksInImage(frame, face_rect, face_model, det_parameters, grayscale_image);
+            cv::Vec6d pose_estimate = LandmarkDetector::GetPose(face_model, fx, fy, cx, cy);
+            cv::Point3f gaze_direction0(0, 0, -1), gaze_direction1(0, 0, -1);
 
-                if (success) {
-                    cv::Vec6d pose_estimate = LandmarkDetector::GetPose(face_model, fx, fy, cx, cy);
-                    cv::Point3f gaze_direction0(0, 0, -1), gaze_direction1(0, 0, -1);
-
-                    if (face_model.eye_model) {
-                        GazeAnalysis::EstimateGaze(face_model, gaze_direction0, fx, fy, cx, cy, true);
-                        GazeAnalysis::EstimateGaze(face_model, gaze_direction1, fx, fy, cx, cy, false);
-
-                        std::cout << "Left Eye Gaze (X, Y, Z): " << gaze_direction0 << std::endl;
-                        std::cout << "Right Eye Gaze (X, Y, Z): " << gaze_direction1 << std::endl;
-                    }
-
-                    face_analyser.PredictStaticAUsAndComputeFeatures(frame, face_model.detected_landmarks);
-
-                    visualizer.SetObservationLandmarks(face_model.detected_landmarks, 1.0, face_model.GetVisibilities());
-                    visualizer.SetObservationPose(pose_estimate, 1.0);
-                    visualizer.SetObservationGaze(gaze_direction0, gaze_direction1,
-                        LandmarkDetector::CalculateAllEyeLandmarks(face_model),
-                        LandmarkDetector::Calculate3DEyeLandmarks(face_model, fx, fy, cx, cy),
-                        face_model.detection_certainty);
-                    visualizer.SetObservationActionUnits(face_analyser.GetCurrentAUsReg(), face_analyser.GetCurrentAUsClass());
-                }
+            if (face_model.eye_model) {
+                GazeAnalysis::EstimateGaze(face_model, gaze_direction0, fx, fy, cx, cy, true);
+                GazeAnalysis::EstimateGaze(face_model, gaze_direction1, fx, fy, cx, cy, false);
             }
 
+            face_analyser.PredictStaticAUsAndComputeFeatures(frame, face_model.detected_landmarks);
+
+            visualizer.SetObservationLandmarks(face_model.detected_landmarks, 1.0, face_model.GetVisibilities());
+            visualizer.SetObservationPose(pose_estimate, 1.0);
+            visualizer.SetObservationGaze(gaze_direction0, gaze_direction1,
+                LandmarkDetector::CalculateAllEyeLandmarks(face_model),
+                LandmarkDetector::Calculate3DEyeLandmarks(face_model, fx, fy, cx, cy),
+                face_model.detection_certainty);
+            visualizer.SetObservationActionUnits(face_analyser.GetCurrentAUsReg(), face_analyser.GetCurrentAUsClass());
+
+            // 시각화된 이미지를 보여줌
             cv::imshow("결과", visualizer.GetVisImage());
-            visualizer.ShowObservation();
         }
         else {
+            face_model.Reset();
             cv::imshow("결과", display_frame);
         }
 
