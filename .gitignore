@@ -14,6 +14,10 @@
 # Precompiled Headers
 *.gch
 *.pch
+<<<<<<< HEAD
+=======
+*.ipch
+>>>>>>> upstream/main
 
 # Compiled Dynamic libraries
 *.so
@@ -36,6 +40,7 @@
 *.app
 
 ### OpenCV ###
+<<<<<<< HEAD
 #OpenCV for Mac and Linux
 #build and release folders
 */CMakeFiles
@@ -48,4 +53,10 @@
 .pch
 .ipch
 .dat
+
+
 # End of https://www.toptal.com/developers/gitignore/api/opencv,c++
+# === Ignore unnecessary large folders ===
+Dangerous Object Use Detectors/Library
+Dangerous Object Use Detectors/Test/AU_predictors/
+Dangerous Object Use Detectors/Test/model/
