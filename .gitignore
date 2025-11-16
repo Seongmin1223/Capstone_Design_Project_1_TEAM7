@@ -1,6 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/opencv,c++
 # Edit at https://www.toptal.com/developers/gitignore?templates=opencv,c++
-
+.vs
 ### C++ ###
 # Prerequisites
 *.d
@@ -14,10 +14,7 @@
 # Precompiled Headers
 *.gch
 *.pch
-<<<<<<< HEAD
-=======
 *.ipch
->>>>>>> upstream/main
 
 # Compiled Dynamic libraries
 *.so
@@ -60,3 +57,4 @@
 Dangerous Object Use Detectors/Library
 Dangerous Object Use Detectors/Test/AU_predictors/
 Dangerous Object Use Detectors/Test/model/
+Dangerous Object Use Detectors/x64
