@@ -7,10 +7,15 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/dnn.hpp>
 #include <filesystem>
-
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+#include <algorithm>
 
 namespace fs = std::filesystem;
 
+#ifdef _WIN32
 #pragma comment(lib, "opencv_world4120.lib")
 #pragma comment(lib, "Utilities.lib")
 #pragma comment(lib, "LandmarkDetector.lib")
@@ -18,12 +23,34 @@ namespace fs = std::filesystem;
 #pragma comment(lib, "GazeAnalyser.lib")
 #pragma comment(lib, "dlib.lib")
 #pragma comment(lib, "openblas.lib")
-
+#endif
 
 struct Detection {
     cv::Rect box;
     float confidence;
     int classId;
+};
+
+struct AnalysisResult {
+    bool face_detected;
+    bool phone_detected;
+    bool looking_at_phone;
+    float phone_confidence;
+    std::string message;
+    std::string filename;
+};
+
+struct Statistics {
+    int total_images;
+    int TP;
+    int FP;
+    int FN;
+    int TN;
+
+    std::vector<std::string> TP_files;
+    std::vector<std::string> FP_files;
+    std::vector<std::string> FN_files;
+    std::vector<std::string> TN_files;
 };
 
 void Project(cv::Mat_<float>& dest, const cv::Mat_<float>& mesh, float fx, float fy, float cx, float cy)
@@ -44,7 +71,6 @@ void Project(cv::Mat_<float>& dest, const cv::Mat_<float>& mesh, float fx, float
     }
 }
 
-//openface와 동일한 기능
 struct GazeLine {
     cv::Point2f start;
     cv::Point2f end;
@@ -62,20 +88,16 @@ GazeLine calculateAccurateGazeLine(
         return result;
     }
 
-    // 1. 3D 눈 랜드마크 가져오기
     auto eye_landmarks3d = LandmarkDetector::Calculate3DEyeLandmarks(face_model, fx, fy, cx, cy);
-
     if (eye_landmarks3d.empty()) {
         return result;
     }
 
-    // 2. 왼쪽/오른쪽 눈의 시선 방향 계산
     cv::Point3f gaze_direction0(0, 0, -1);
     cv::Point3f gaze_direction1(0, 0, -1);
-    GazeAnalysis::EstimateGaze(face_model, gaze_direction0, fx, fy, cx, cy, true);  // left eye
-    GazeAnalysis::EstimateGaze(face_model, gaze_direction1, fx, fy, cx, cy, false); // right eye
+    GazeAnalysis::EstimateGaze(face_model, gaze_direction0, fx, fy, cx, cy, true);
+    GazeAnalysis::EstimateGaze(face_model, gaze_direction1, fx, fy, cx, cy, false);
 
-    // 3. Pupil 위치 계산 (왼쪽 눈 iris 8개 점의 평균)
     cv::Point3f pupil_left(0, 0, 0);
     cv::Point3f pupil_right(0, 0, 0);
     for (size_t i = 0; i < 8; ++i)
@@ -86,16 +108,13 @@ GazeLine calculateAccurateGazeLine(
     pupil_left = pupil_left / 8.0f;
     pupil_right = pupil_right / 8.0f;
 
-    // 4. 평균 pupil 위치와 시선 방향
     cv::Point3f pupil_avg = (pupil_left + pupil_right) / 2.0f;
     cv::Point3f gaze_avg = (gaze_direction0 + gaze_direction1) / 2.0f;
 
-    // 5. 시선의 시작점과 끝점 (3D)
     std::vector<cv::Point3f> points;
     points.push_back(pupil_avg);
-    points.push_back(pupil_avg + gaze_avg * 500.0f);  // 길이 조절 (50.0 -> 150.0)
+    points.push_back(pupil_avg + gaze_avg * 1500.0f);
 
-    // 6. 3D -> 2D 투영 (OpenFace의 Project 함수 사용)
     cv::Mat_<float> mesh = (cv::Mat_<float>(2, 3) <<
         points[0].x, points[0].y, points[0].z,
         points[1].x, points[1].y, points[1].z);
@@ -112,58 +131,6 @@ GazeLine calculateAccurateGazeLine(
     return result;
 }
 
-//정확도 관련 함수
-struct GazeAccuracy {
-    float angle_diff_deg;
-    float endpoint_distance_px;
-
-    std::string toString() const {
-        char buf[256];
-        snprintf(buf, sizeof(buf), "Angle: %.2f deg | Distance: %.0fpx",
-            angle_diff_deg, endpoint_distance_px);
-        return std::string(buf);
-    }
-};
-
-GazeAccuracy compareGazeLines(
-    const GazeLine& openface_line,
-    const GazeLine& custom_line)
-{
-    GazeAccuracy accuracy = { 0.0f, 0.0f };
-
-    if (!openface_line.valid || !custom_line.valid) {
-        return accuracy;
-    }
-
-    // 1. 방향 벡터 계산
-    cv::Point2f v1 = openface_line.end - openface_line.start;
-    cv::Point2f v2 = custom_line.end - custom_line.start;
-
-    // 2. 벡터 정규화
-    float len1 = std::sqrt(v1.x * v1.x + v1.y * v1.y);
-    float len2 = std::sqrt(v2.x * v2.x + v2.y * v2.y);
-
-    if (len1 < 0.001f || len2 < 0.001f) {
-        return accuracy;
-    }
-
-    v1 *= (1.0f / len1);
-    v2 *= (1.0f / len2);
-
-    // 3. 각도 차이 계산
-    float dot_product = v1.x * v2.x + v1.y * v2.y;
-    dot_product = std::max(-1.0f, std::min(1.0f, dot_product));
-    float angle_rad = std::acos(dot_product);
-    accuracy.angle_diff_deg = angle_rad * 180.0f / CV_PI;
-
-    // 4. 끝점 거리 계산
-    cv::Point2f diff = openface_line.end - custom_line.end;
-    accuracy.endpoint_distance_px = std::sqrt(diff.x * diff.x + diff.y * diff.y);
-
-    return accuracy;
-}
-
-// YOLO Postprocessing
 std::vector<Detection> postprocess(
     cv::Mat& frame,
     const cv::Size& blobSize,
@@ -234,9 +201,122 @@ std::vector<Detection> postprocess(
     return detections;
 }
 
-
-int main(int argc, char** argv)
+AnalysisResult analyzeImage(const std::string& imagePath,
+    LandmarkDetector::CLNF& face_model,
+    LandmarkDetector::FaceModelParameters& det_parameters,
+    cv::dnn::Net& yolo_net)
 {
+    AnalysisResult result = { false, false, false, 0.0f, "", "" };
+    result.filename = fs::path(imagePath).filename().string();
+
+    cv::Mat frame = cv::imread(imagePath);
+    if (frame.empty()) {
+        result.message = "ERROR: Cannot open image file";
+        return result;
+    }
+
+    cv::Mat_<uchar> grayscale_image;
+    cv::cvtColor(frame, grayscale_image, cv::COLOR_BGR2GRAY);
+
+    double fx = 1000.0, fy = 1000.0;
+    double cx = frame.cols / 2.0, cy = frame.rows / 2.0;
+
+    LandmarkDetector::DetectLandmarksInVideo(frame, face_model, det_parameters, grayscale_image);
+    result.face_detected = face_model.detection_success;
+
+    if (!result.face_detected) {
+        result.message = "No face detected";
+        return result;
+    }
+
+    GazeLine gaze_line = calculateAccurateGazeLine(face_model, fx, fy, cx, cy, frame.cols, frame.rows);
+
+    if (!gaze_line.valid) {
+        result.message = "Cannot analyze gaze";
+        return result;
+    }
+
+    const int CELL_PHONE_CLASS_ID = 0;
+    float confThreshold = 0.25f;
+    float nmsThreshold = 0.4f;
+    const cv::Size yoloInputSize(640, 640);
+
+    cv::Mat blob;
+    cv::dnn::blobFromImage(frame, blob, 1 / 255.0, yoloInputSize, cv::Scalar(), true, false);
+    yolo_net.setInput(blob);
+
+    std::vector<cv::Mat> yolo_outs;
+    yolo_net.forward(yolo_outs, yolo_net.getUnconnectedOutLayersNames());
+    auto detections = postprocess(frame, yoloInputSize, yolo_outs, confThreshold, nmsThreshold);
+
+    for (const auto& det : detections) {
+        if (det.classId == CELL_PHONE_CLASS_ID) {
+            result.phone_detected = true;
+            result.phone_confidence = det.confidence;
+
+            cv::Point p1(gaze_line.start.x, gaze_line.start.y);
+            cv::Point p2(gaze_line.end.x, gaze_line.end.y);
+            bool intersects_strict = cv::clipLine(det.box, p1, p2);
+
+            int margin = 100;
+            cv::Rect expanded_box(
+                det.box.x - margin,
+                det.box.y - margin,
+                det.box.width + 2 * margin,
+                det.box.height + 2 * margin
+            );
+
+            cv::Point p1_expanded = cv::Point(gaze_line.start.x, gaze_line.start.y);
+            cv::Point p2_expanded = cv::Point(gaze_line.end.x, gaze_line.end.y);
+            bool intersects_expanded = cv::clipLine(expanded_box, p1_expanded, p2_expanded);
+
+            cv::Point2f phone_center(det.box.x + det.box.width / 2.0f,
+                det.box.y + det.box.height / 2.0f);
+            cv::Point2f gaze_direction = gaze_line.end - gaze_line.start;
+            cv::Point2f to_phone = phone_center - gaze_line.start;
+
+            float gaze_len = std::sqrt(gaze_direction.x * gaze_direction.x +
+                gaze_direction.y * gaze_direction.y);
+            float phone_len = std::sqrt(to_phone.x * to_phone.x + to_phone.y * to_phone.y);
+
+            float angle_to_phone = 180.0f;
+            if (gaze_len > 0.001f && phone_len > 0.001f) {
+                gaze_direction /= gaze_len;
+                to_phone /= phone_len;
+
+                float dot = gaze_direction.x * to_phone.x + gaze_direction.y * to_phone.y;
+                dot = std::max(-1.0f, std::min(1.0f, dot));
+                angle_to_phone = std::acos(dot) * 180.0f / CV_PI;
+            }
+
+            bool looking_by_strict = intersects_strict;
+            bool looking_by_expanded = intersects_expanded;
+            bool looking_by_angle = (angle_to_phone < 30.0f);
+
+            result.looking_at_phone = looking_by_strict || looking_by_expanded || looking_by_angle;
+
+            if (result.looking_at_phone) {
+                result.message = "Looking at phone";
+            }
+            else {
+                result.message = "Phone present but not looking";
+            }
+
+            break;
+        }
+    }
+
+    if (!result.phone_detected) {
+        result.message = "No phone detected";
+    }
+
+    return result;
+}
+
+Statistics analyzeDataset(const std::string& phoneFolder, const std::string& noGazeFolder, const std::string& noPhoneFolder)
+{
+    Statistics stats = { 0, 0, 0, 0, 0 };
+
     std::vector<std::string> arguments = {
         "FaceTest.exe", "-wild",
         "-mloc", "model/main_ceclm_general.txt"
@@ -244,198 +324,305 @@ int main(int argc, char** argv)
 
     LandmarkDetector::FaceModelParameters det_parameters(arguments);
     LandmarkDetector::CLNF face_model(det_parameters.model_location);
+
     if (!face_model.loaded_successfully) {
-        std::cerr << "OpenFace 모델 로드 실패" << std::endl;
-        return 1;
+        std::cerr << "ERROR: OpenFace model loading failed" << std::endl;
+        return stats;
     }
 
-    FaceAnalysis::FaceAnalyserParameters face_analysis_params(arguments);
-    face_analysis_params.OptimizeForImages();
-    FaceAnalysis::FaceAnalyser face_analyser(face_analysis_params);
-
-    Utilities::Visualizer visualizer(arguments);
-
-    // ---------------------------
-    // YOLO ONNX Load
-    // ---------------------------
     std::vector<std::string> model_paths = {
-        "v1_opencv.onnx",
-        "model/v1_opencv.onnx"
+        "v4_opencv.onnx",
+        "model/v4_opencv.onnx"
     };
 
     cv::dnn::Net yolo_net;
     bool model_loaded = false;
 
     for (const auto& path : model_paths) {
-        if (!fs::exists(path)) {
-            std::cerr << "[WARN] 모델 파일 없음: " << path << "\n";
-            continue;
-        }
+        if (!fs::exists(path)) continue;
 
         try {
             yolo_net = cv::dnn::readNetFromONNX(path);
             yolo_net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
             yolo_net.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
-
             model_loaded = true;
-            std::cout << "YOLO 모델 로드 성공: " << path << std::endl;
+            std::cout << "YOLO model loaded: " << path << std::endl;
             break;
         }
         catch (const cv::Exception& e) {
-            std::cerr << "[ERROR] YOLO 로드 실패 (" << path << ")\n";
-            std::cerr << "OpenCV 예외 메시지: " << e.what() << "\n";
+            std::cerr << "YOLO loading failed: " << path << std::endl;
         }
     }
 
     if (!model_loaded) {
-        std::cerr << "ERROR: YOLOv8 모델 로드 실패" << std::endl;
-        return 1;
+        std::cerr << "ERROR: YOLO model loading failed" << std::endl;
+        return stats;
     }
 
-    // YOLO Settings
-    std::vector<std::string> classNames = { "cell phone" };
-    const int CELL_PHONE_CLASS_ID = 0;
-    float confThreshold = 0.25f;
-    float nmsThreshold = 0.4f;
-    const cv::Size yoloInputSize(640, 640);
+    std::vector<std::string> image_extensions = { ".jpg", ".jpeg", ".png", ".bmp", ".tiff" };
 
-    // Webcam
-    cv::VideoCapture cap(0);
-    if (!cap.isOpened()) {
-        std::cerr << "웹캠 열기 실패" << std::endl;
-        return 1;
-    }
+    struct ImageInfo {
+        std::string path;
+        int ground_truth;
+    };
 
-    cv::Mat frame;
+    std::vector<ImageInfo> all_images;
 
-    std::cout << "\n=== Gaze Detection Accuracy Comparison System ===" << std::endl;
-    std::cout << "Green Line: OpenFace Original | Red Line: Accurate Implementation" << std::endl;
-    std::cout << "Press ESC to exit" << std::endl;
+    if (fs::exists(phoneFolder) && fs::is_directory(phoneFolder)) {
+        for (const auto& entry : fs::directory_iterator(phoneFolder)) {
+            if (entry.is_regular_file()) {
+                std::string ext = entry.path().extension().string();
+                std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
-    // 정확도 통계
-    std::vector<float> angle_diffs;
-    std::vector<float> distance_diffs;
-
-    while (true) {
-        cap >> frame;
-        if (frame.empty()) break;
-
-        cv::Mat display_frame = frame.clone();
-        cv::Mat_<uchar> grayscale_image;
-        cv::cvtColor(frame, grayscale_image, cv::COLOR_BGR2GRAY);
-
-        double fx = 1000.0, fy = 1000.0;
-        double cx = frame.cols / 2.0, cy = frame.rows / 2.0;
-
-        cv::Mat blob;
-        cv::dnn::blobFromImage(frame, blob, 1 / 255.0, yoloInputSize, cv::Scalar(), true, false);
-        yolo_net.setInput(blob);
-
-        std::vector<cv::Mat> yolo_outs;
-        yolo_net.forward(yolo_outs, yolo_net.getUnconnectedOutLayersNames());
-        auto detections = postprocess(frame, yoloInputSize, yolo_outs, confThreshold, nmsThreshold);
-
-        LandmarkDetector::DetectLandmarksInVideo(frame, face_model, det_parameters, grayscale_image);
-        bool face_detected = face_model.detection_success;
-        visualizer.SetImage(display_frame, fx, fy, cx, cy);
-
-        if (face_detected) {
-            cv::Vec6d pose_estimate = LandmarkDetector::GetPose(face_model, fx, fy, cx, cy);
-
-            cv::Point3f gaze0(0, 0, -1), gaze1(0, 0, -1);
-            if (face_model.eye_model) {
-                GazeAnalysis::EstimateGaze(face_model, gaze0, fx, fy, cx, cy, true);
-                GazeAnalysis::EstimateGaze(face_model, gaze1, fx, fy, cx, cy, false);
-            }
-
-            face_analyser.PredictStaticAUsAndComputeFeatures(frame, face_model.detected_landmarks);
-
-            visualizer.SetObservationLandmarks(face_model.detected_landmarks, 1.0, face_model.GetVisibilities());
-            visualizer.SetObservationPose(pose_estimate, 1.0);
-            visualizer.SetObservationGaze(gaze0, gaze1, LandmarkDetector::CalculateAllEyeLandmarks(face_model), LandmarkDetector::Calculate3DEyeLandmarks(face_model, fx, fy, cx, cy), face_model.detection_certainty);
-
-            visualizer.SetObservationActionUnits(face_analyser.GetCurrentAUsReg(), face_analyser.GetCurrentAUsClass());
-        }
-
-        cv::Mat visImg = visualizer.GetVisImage().clone();
-        GazeLine accurate_gaze = calculateAccurateGazeLine(face_model, fx, fy, cx, cy, frame.cols, frame.rows);
-
-        if (accurate_gaze.valid) {
-            // 빨간색으로 정확한 시선 라인 그리기
-            cv::Point p1(accurate_gaze.start.x, accurate_gaze.start.y);
-            cv::Point p2(accurate_gaze.end.x, accurate_gaze.end.y);
-
-            cv::line(visImg, p1, p2, cv::Scalar(0, 0, 255), 3);
-            cv::circle(visImg, p1, 6, cv::Scalar(0, 0, 255), -1);
-            cv::circle(visImg, p2, 6, cv::Scalar(0, 0, 255), -1);
-        }
-
-        for (const auto& det : detections) {
-            cv::rectangle(visImg, det.box, cv::Scalar(255, 255, 0), 2);
-
-            std::string label = classNames[det.classId] + " " + std::to_string((int)(det.confidence * 100)) + "%";
-
-            // 교차 판정 (정확한 라인 사용)
-            if (det.classId == CELL_PHONE_CLASS_ID && accurate_gaze.valid) {
-                cv::Point p1(accurate_gaze.start.x, accurate_gaze.start.y);
-                cv::Point p2(accurate_gaze.end.x, accurate_gaze.end.y);
-
-                if (cv::clipLine(det.box, p1, p2)) {
-                    label += " [시선 감지]";
-                    cv::rectangle(visImg, det.box, cv::Scalar(0, 0, 255), 3);
+                if (std::find(image_extensions.begin(), image_extensions.end(), ext) != image_extensions.end()) {
+                    all_images.push_back({ entry.path().string(), 1 });
                 }
             }
-
-            int baseLine;
-            cv::Size labelSize = cv::getTextSize(label, cv::FONT_HERSHEY_SIMPLEX, 0.6, 2, &baseLine);
-
-            cv::rectangle(visImg, cv::Point(det.box.x, det.box.y - labelSize.height - 5), cv::Point(det.box.x + labelSize.width, det.box.y), cv::Scalar(255, 255, 0), cv::FILLED);
-
-            cv::putText(visImg, label, cv::Point(det.box.x, det.box.y - 3), cv::FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar(0, 0, 0), 2);
         }
-
-        int y = 30;
-        cv::putText(visImg, "Green: OpenFace Original", cv::Point(10, y), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
-
-        y += 30;
-        cv::putText(visImg, "Red: Accurate Implementation", cv::Point(10, y), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 0, 255), 2);
-
-        // 평균 정확도 표시
-        if (!angle_diffs.empty()) {
-            float avg_angle = 0.0f, avg_dist = 0.0f;
-            for (float a : angle_diffs) avg_angle += a;
-            for (float d : distance_diffs) avg_dist += d;
-            avg_angle /= angle_diffs.size();
-            avg_dist /= distance_diffs.size();
-
-            y += 40;
-            char buf[256];
-            snprintf(buf, sizeof(buf), "Avg Angle Diff: %.2f deg", avg_angle);
-            cv::putText(visImg, buf, cv::Point(10, y), cv::FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar(255, 255, 255), 2);
-
-            y += 25;
-            snprintf(buf, sizeof(buf), "Avg Distance: %.0fpx", avg_dist);
-            cv::putText(visImg, buf, cv::Point(10, y), cv::FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar(255, 255, 255), 2);
-        }
-
-        cv::imshow("Gaze Detection Comparison", visImg);
-        if (cv::waitKey(1) == 27) break;
     }
 
-    // 최종 통계 출력
-    if (!angle_diffs.empty()) {
-        float avg_angle = 0.0f, avg_dist = 0.0f;
-        for (float a : angle_diffs) avg_angle += a;
-        for (float d : distance_diffs) avg_dist += d;
-        avg_angle /= angle_diffs.size();
-        avg_dist /= distance_diffs.size();
+    if (fs::exists(noGazeFolder) && fs::is_directory(noGazeFolder)) {
+        for (const auto& entry : fs::directory_iterator(noGazeFolder)) {
+            if (entry.is_regular_file()) {
+                std::string ext = entry.path().extension().string();
+                std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
-        std::cout << "\n=== Final Accuracy Statistics ===" << std::endl;
-        std::cout << "Average Angle Difference: " << avg_angle << " degrees" << std::endl;
-        std::cout << "Average Endpoint Distance: " << avg_dist << " pixels" << std::endl;
+                if (std::find(image_extensions.begin(), image_extensions.end(), ext) != image_extensions.end()) {
+                    all_images.push_back({ entry.path().string(), 0 });
+                }
+            }
+        }
     }
 
-    cap.release();
-    cv::destroyAllWindows();
+    if (fs::exists(noPhoneFolder) && fs::is_directory(noPhoneFolder)) {
+        for (const auto& entry : fs::directory_iterator(noPhoneFolder)) {
+            if (entry.is_regular_file()) {
+                std::string ext = entry.path().extension().string();
+                std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
+
+                if (std::find(image_extensions.begin(), image_extensions.end(), ext) != image_extensions.end()) {
+                    all_images.push_back({ entry.path().string(), 0 });
+                }
+            }
+        }
+    }
+
+    stats.total_images = all_images.size();
+
+    int phone_count = 0, no_gaze_count = 0, no_phone_count = 0;
+
+    for (const auto& img : all_images) {
+        std::string parent = fs::path(img.path).parent_path().filename().string();
+        std::transform(parent.begin(), parent.end(), parent.begin(), ::tolower);
+
+        if (parent.find("phone") != std::string::npos && parent.find("no") == std::string::npos) {
+            phone_count++;
+        }
+        else if (parent.find("gaze") != std::string::npos || parent.find("no_gaze") != std::string::npos) {
+            no_gaze_count++;
+        }
+        else if (parent.find("no_phone") != std::string::npos || parent.find("nophone") != std::string::npos) {
+            no_phone_count++;
+        }
+    }
+
+    std::cout << "\n========================================" << std::endl;
+    std::cout << "Found " << stats.total_images << " images total" << std::endl;
+    std::cout << "  'phone' folder (looking at phone):        " << phone_count << " images [GT = 1]" << std::endl;
+    std::cout << "  'no_gaze' folder (phone but not looking): " << no_gaze_count << " images [GT = 0]" << std::endl;
+    std::cout << "  'no_phone' folder (no phone):             " << no_phone_count << " images [GT = 0]" << std::endl;
+    std::cout << "========================================\n" << std::endl;
+
+    std::cout << "Starting analysis...\n" << std::endl;
+
+    int processed = 0;
+    for (const auto& img_info : all_images) {
+        processed++;
+        std::string filename = fs::path(img_info.path).filename().string();
+        std::string folder_name = fs::path(img_info.path).parent_path().filename().string();
+
+        std::cout << "[" << processed << "/" << stats.total_images << "] "
+            << folder_name << "/" << filename << " ";
+
+        AnalysisResult result = analyzeImage(img_info.path, face_model, det_parameters, yolo_net);
+
+        int actual = img_info.ground_truth;
+        int predicted = result.looking_at_phone ? 1 : 0;
+
+        std::string status;
+        if (actual == 1 && predicted == 1) {
+            stats.TP++;
+            stats.TP_files.push_back(folder_name + "/" + filename);
+            status = "[TP] CORRECT";
+        }
+        else if (actual == 0 && predicted == 1) {
+            stats.FP++;
+            stats.FP_files.push_back(folder_name + "/" + filename);
+            status = "[FP] FALSE ALARM";
+        }
+        else if (actual == 1 && predicted == 0) {
+            stats.FN++;
+            stats.FN_files.push_back(folder_name + "/" + filename);
+            status = "[FN] MISSED";
+        }
+        else if (actual == 0 && predicted == 0) {
+            stats.TN++;
+            stats.TN_files.push_back(folder_name + "/" + filename);
+            status = "[TN] CORRECT";
+        }
+
+        std::cout << status << std::endl;
+    }
+
+    return stats;
+}
+
+void printStatistics(const Statistics& stats)
+{
+    std::cout << "\n========================================" << std::endl;
+    std::cout << "         PERFORMANCE EVALUATION" << std::endl;
+    std::cout << "========================================" << std::endl;
+    std::cout << "Total images: " << stats.total_images << std::endl;
+    std::cout << "========================================" << std::endl;
+
+    std::cout << "\n[CONFUSION MATRIX]" << std::endl;
+    std::cout << "========================================" << std::endl;
+    std::cout << "TP (True Positive):  " << stats.TP << " images" << std::endl;
+    std::cout << "   -> Actually looking at phone & Detected as looking" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+    std::cout << "FP (False Positive): " << stats.FP << " images" << std::endl;
+    std::cout << "   -> Actually NOT looking & Detected as looking (FALSE ALARM)" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+    std::cout << "FN (False Negative): " << stats.FN << " images" << std::endl;
+    std::cout << "   -> Actually looking & NOT detected (MISSED)" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+    std::cout << "TN (True Negative):  " << stats.TN << " images" << std::endl;
+    std::cout << "   -> Actually NOT looking & NOT detected" << std::endl;
+    std::cout << "========================================" << std::endl;
+
+    float accuracy = 0.0f, precision = 0.0f, recall = 0.0f, f1_score = 0.0f;
+
+    if (stats.total_images > 0) {
+        accuracy = (float)(stats.TP + stats.TN) / stats.total_images * 100.0f;
+    }
+
+    if ((stats.TP + stats.FP) > 0) {
+        precision = (float)stats.TP / (stats.TP + stats.FP) * 100.0f;
+    }
+
+    if ((stats.TP + stats.FN) > 0) {
+        recall = (float)stats.TP / (stats.TP + stats.FN) * 100.0f;
+    }
+
+    if ((precision + recall) > 0) {
+        f1_score = 2.0f * precision * recall / (precision + recall);
+    }
+
+    std::cout << "\n[PERFORMANCE METRICS]" << std::endl;
+    std::cout << "========================================" << std::endl;
+    std::cout << std::fixed << std::setprecision(2);
+
+    std::cout << "Accuracy:  " << accuracy << "%" << std::endl;
+    std::cout << "           = (TP + TN) / Total" << std::endl;
+    std::cout << "           = (" << stats.TP << " + " << stats.TN << ") / " << stats.total_images << std::endl;
+    std::cout << "           [How often is the system correct overall?]" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+
+    std::cout << "Precision: " << precision << "%" << std::endl;
+    std::cout << "           = TP / (TP + FP)" << std::endl;
+    std::cout << "           = " << stats.TP << " / (" << stats.TP << " + " << stats.FP << ")" << std::endl;
+    std::cout << "           [When it says 'looking', how often is it right?]" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+
+    std::cout << "Recall:    " << recall << "%" << std::endl;
+    std::cout << "           = TP / (TP + FN)" << std::endl;
+    std::cout << "           = " << stats.TP << " / (" << stats.TP << " + " << stats.FN << ")" << std::endl;
+    std::cout << "           [Of all actual phone-looking cases, how many did we catch?]" << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+
+    std::cout << "F1-Score:  " << f1_score << "%" << std::endl;
+    std::cout << "           = 2 * Precision * Recall / (Precision + Recall)" << std::endl;
+    std::cout << "           [Balanced measure of Precision and Recall]" << std::endl;
+    std::cout << "========================================" << std::endl;
+
+    if (!stats.TP_files.empty()) {
+        std::cout << "\n[TRUE POSITIVES - " << stats.TP << " files]" << std::endl;
+        std::cout << "Correctly detected as looking at phone:" << std::endl;
+        for (const auto& file : stats.TP_files) {
+            std::cout << "  ✓ " << file << std::endl;
+        }
+    }
+
+    if (!stats.FP_files.empty()) {
+        std::cout << "\n[FALSE POSITIVES - " << stats.FP << " files]" << std::endl;
+        std::cout << "Incorrectly detected as looking (False Alarms):" << std::endl;
+        for (const auto& file : stats.FP_files) {
+            std::cout << "  ✗ " << file << std::endl;
+        }
+    }
+
+    if (!stats.FN_files.empty()) {
+        std::cout << "\n[FALSE NEGATIVES - " << stats.FN << " files]" << std::endl;
+        std::cout << "Missed detections (Should have detected):" << std::endl;
+        for (const auto& file : stats.FN_files) {
+            std::cout << "  ✗ " << file << std::endl;
+        }
+    }
+
+    if (!stats.TN_files.empty()) {
+        std::cout << "\n[TRUE NEGATIVES - " << stats.TN << " files]" << std::endl;
+        std::cout << "Correctly identified as NOT looking:" << std::endl;
+        for (const auto& file : stats.TN_files) {
+            std::cout << "  ✓ " << file << std::endl;
+        }
+    }
+}
+
+int main(int argc, char** argv)
+{
+    std::cout << "=== Phone Gaze Detection - Performance Evaluation ===" << std::endl;
+    std::cout << "\nThis program evaluates detection performance using three folders:" << std::endl;
+    std::cout << "1. 'phone' folder:    Person IS looking at phone (Ground Truth = 1)" << std::endl;
+    std::cout << "2. 'no_gaze' folder:  Phone present but NOT looking (Ground Truth = 0)" << std::endl;
+    std::cout << "3. 'no_phone' folder: No phone in image (Ground Truth = 0)" << std::endl;
+    std::cout << "\n========================================\n" << std::endl;
+
+    std::string phoneFolder, noGazeFolder, noPhoneFolder;
+
+    std::cout << "Enter path to 'phone' folder (looking at phone): " << std::endl;
+    std::cout << "> ";
+    std::getline(std::cin, phoneFolder);
+
+    std::cout << "\nEnter path to 'no_gaze' folder (phone but not looking): " << std::endl;
+    std::cout << "> ";
+    std::getline(std::cin, noGazeFolder);
+
+    std::cout << "\nEnter path to 'no_phone' folder (no phone): " << std::endl;
+    std::cout << "> ";
+    std::getline(std::cin, noPhoneFolder);
+
+    if (phoneFolder.empty() || noGazeFolder.empty() || noPhoneFolder.empty()) {
+        std::cerr << "ERROR: All three folder paths are required" << std::endl;
+        return 1;
+    }
+
+    if (!fs::exists(phoneFolder)) {
+        std::cerr << "ERROR: Phone folder does not exist: " << phoneFolder << std::endl;
+        return 1;
+    }
+
+    if (!fs::exists(noGazeFolder)) {
+        std::cerr << "ERROR: No-gaze folder does not exist: " << noGazeFolder << std::endl;
+        return 1;
+    }
+
+    if (!fs::exists(noPhoneFolder)) {
+        std::cerr << "ERROR: No-phone folder does not exist: " << noPhoneFolder << std::endl;
+        return 1;
+    }
+
+    Statistics stats = analyzeDataset(phoneFolder, noGazeFolder, noPhoneFolder);
+    printStatistics(stats);
+
     return 0;
 }
