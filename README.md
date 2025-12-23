@@ -57,7 +57,7 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## 개요
+## ► 개요
 **YOLO-based Object Detection + Gaze Tracking for Driver Monitoring**
 
 하나의 **광시야각(와이드) 카메라**를 통해 운전자와 조수석 승객을 동시에 모니터링하고, **OpenFace 기반 얼굴 랜드마크 및 시선 추정**과 **YOLO 기반 객체 감지**를 결합하여 휴대폰 사용을 실시간으로 판정하여 경고를 발생시키는 시스템입니다.  
@@ -66,7 +66,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 배경 및 동기
+## ► 배경 및 동기
 
 운전 중 스마트폰 사용은 전방 주시율 저하, 반응 시간 증가, 인지 부하 상승을 유발하며
 교통사고의 주요 원인으로 지속적으로 보고되고 있다.
@@ -82,7 +82,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 목표
+## ► 목표
 
 - 단일 카메라 기반 실시간 운전자 모니터링 시스템 설계
 
@@ -96,7 +96,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 주요 기능
+## ► 주요 기능
 
 - 광시야각 카메라 입력 (주야간 대응: IR 보조 가능)  
 - 영상 전처리 (렌즈 보정, 노이즈 제거, 정규화)  
@@ -107,7 +107,7 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## 사용 기술 스택
+## ► 사용 기술 스택
 
 - **운영체제**: Linux  
 - **라이브러리 / 프레임워크**: OpenCV, PyTorch, YOLOv5/YOLOv8  
@@ -115,12 +115,14 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 권장 사항
+## ► 권장 사항
 - **환경설정**: 해당 Git에는 용량 문제로 인하여 라이브러리 파일이 직접적으로 업로드되지 않았습니다. 밑에 있는 Google Drive 링크로 접속하여 라이브러리 파일들을 다운로드 받아주시고 사용해주시면 감사하겠습니다.
 
 https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=sharing
 
-## 구조
+  <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## ► 구조
 
 <p align="center">
   <strong>광시야각 카메라 기반 DMS 전체 시스템 구조도</strong>
@@ -175,7 +177,7 @@ https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=shari
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## 데이터셋 및 설정
+## ► 데이터셋 및 설정
 
 - 실제 차량 내부에 카메라를 부착하여 데이터 직접 수집
 
@@ -190,9 +192,9 @@ https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=shari
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## 결과 및 분석
+## ► 결과 및 분석
 
-- 광각 환경에서도 안정적인 휴대폰 객체 탐지 확인
+- 안정적인 휴대폰 객체 탐지 확인
 
 - 시선 정보 결합을 통해 단순 객체 탐지 대비 오탐지 감소
 
@@ -206,7 +208,7 @@ https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=shari
 
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Demo Video
+## ► Demo Video
 
 https://youtu.be/b2ukAJXxe68
 
