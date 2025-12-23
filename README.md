@@ -60,13 +60,13 @@
 ## 개요
 **YOLO-based Object Detection + Gaze Tracking for Driver Monitoring**
 
-하나의 **광시야각(와이드) 카메라**를 통해 운전자와 조수석 승객을 동시에 모니터링하고, **OpenCV 기반 얼굴·눈·핸드 분석**과 **YOLO 기반 객체 감지**를 결합하여 휴대폰 사용을 실시간으로 판정하여 경고를 발생시키는 시스템입니다.  
+하나의 **광시야각(와이드) 카메라**를 통해 운전자와 조수석 승객을 동시에 모니터링하고, **OpenFace 기반 얼굴 랜드마크 및 시선 추정**과 **YOLO 기반 객체 감지**를 결합하여 휴대폰 사용을 실시간으로 판정하여 경고를 발생시키는 시스템입니다.  
 
 **목표**: 차내 엣지 디바이스에서 실시간(on-device)으로 동작하면서, 프라이버시를 지키는 DMS 프로토타입 구현
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 📖 Background & Motivation
+## 배경 및 동기
 
 운전 중 스마트폰 사용은 전방 주시율 저하, 반응 시간 증가, 인지 부하 상승을 유발하며
 교통사고의 주요 원인으로 지속적으로 보고되고 있다.
@@ -82,7 +82,7 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 🎯 Project Objectives
+## 목표
 
 - 단일 카메라 기반 실시간 운전자 모니터링 시스템 설계
 
@@ -175,7 +175,7 @@ https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=shari
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## Dataset & Experimental Setup
+## 데이터셋 및 설정
 
 - 실제 차량 내부에 카메라를 부착하여 데이터 직접 수집
 
@@ -190,7 +190,7 @@ https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=shari
   <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-## Results & Analysis
+## 결과 및 분석
 
 - 광각 환경에서도 안정적인 휴대폰 객체 탐지 확인
 
@@ -198,8 +198,16 @@ https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=shari
 
 - 실제 차량 환경을 가정한 시나리오에서 시스템 동작 검증
 
-**Limitations**
+**한계**
 
 - 눈·코 가림 상황에서는 시선 추정 성능 저하 발생
 
 - 고정 카메라 위치 기반 학습을 통해 개선 가능
+
+  <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Demo Video
+
+https://youtu.be/b2ukAJXxe68
+
+  <p align="right">(<a href="#readme-top">back to top</a>)</p>
