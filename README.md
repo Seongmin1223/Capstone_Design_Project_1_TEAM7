@@ -4,8 +4,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-
-  <h3 align="center">광시야각 카메라 기반 운전자·승객 모니터링 (Driver & Passenger Monitoring)</h3>
+  <h1 align="center">광시야각 통합 카메라를 이용한 운전자/조수석 승객 모니터링 개발 및 연구 </h1>
+  <h2 align="center">In-Vehicle Smartphone Use Detection System Using Gaze Tracking and Objection Detection</h2>
 
   <p align="center">
     엣지 디바이스 기반의 DMS(Driver Monitoring System) 프로토타입
@@ -41,7 +41,6 @@
   </a>
 </div>
 
-<p align="center">엣지 디바이스 기반의 DMS(Driver Monitoring System) 프로토타입</p>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -57,10 +56,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## 개요
+**YOLO-based Object Detection + Gaze Tracking for Driver Monitoring**
 
 하나의 **광시야각(와이드) 카메라**를 통해 운전자와 조수석 승객을 동시에 모니터링하고, **OpenCV 기반 얼굴·눈·핸드 분석**과 **YOLO 기반 객체 감지**를 결합하여 휴대폰 사용을 실시간으로 판정하여 경고를 발생시키는 시스템입니다.  
 
-**목표**: 차내 엣지 디바이스에서 실시간(on-device)으로 동작하면서, 프라이버시를 지키는 DMS 프로토타입 구현.
+**목표**: 차내 엣지 디바이스에서 실시간(on-device)으로 동작하면서, 프라이버시를 지키는 DMS 프로토타입 구현
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
