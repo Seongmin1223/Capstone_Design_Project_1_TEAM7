@@ -89,6 +89,8 @@
 
 <p align="center">
   광시야각 카메라 기반 DMS 전체 시스템 구조도
+  <img width="621" height="475" alt="image" src="https://github.com/user-attachments/assets/ff92ae9b-f3d6-42c4-9bbd-07761b3af22f" />
+
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
