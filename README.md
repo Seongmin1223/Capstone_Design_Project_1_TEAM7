@@ -85,6 +85,8 @@
 ## 권장 사항
 - **환경설정**: 해당 Git에는 용량 문제로 인하여 라이브러리 파일이 직접적으로 업로드되지 않았습니다. 밑에 있는 Google Drive 링크로 접속하여 라이브러리 파일들을 다운로드 받아주시고 사용해주시면 감사하겠습니다.
 
+https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=sharing
+
 ## 구조
 
 <p align="center">
