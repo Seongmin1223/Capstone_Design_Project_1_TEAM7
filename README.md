@@ -116,7 +116,7 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## ► 권장 사항
-- **환경설정**: 해당 Git에는 용량 문제로 인하여 라이브러리 파일이 직접적으로 업로드되지 않았습니다. 밑에 있는 Google Drive 링크로 접속하여 라이브러리 파일들을 다운로드 받아주시고 사용해주시면 감사하겠습니다.
+- **환경설정**: 해당 Git에는 용량 문제로 인하여 라이브러리 파일이 직접적으로 업로드되지 않았습니다. 해당 Github 프로젝트에는 현재 코드 파일만 업로드 되어있으므로 직접 프로젝트를 실행하는걸 원하신다면 밑에 있는 Google Drive 링크로 접속하여 라이브러리 파일들을 다운로드 받아주시고 사용해주시면 감사하겠습니다.
 
 https://drive.google.com/file/d/1ooFo7wtsK4Vr0c1kjTJtsyJjEHSNztRR/view?usp=sharing
 
